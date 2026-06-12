@@ -14,7 +14,7 @@ document.getElementById("region").addEventListener("change", async (e) => {
   // Remplir la liste
   for (const dept of depts) {
     const opt = document.createElement("option");
-    opt.value = dept.id;
+    opt.value = dept.code;
     opt.textContent = `${dept.code} – ${dept.libelle}`;
     selectDept.appendChild(opt);
   }
