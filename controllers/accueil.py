@@ -12,6 +12,6 @@ def index():
     .order_by(ProfessionSante.libelle).all())
     return render_template("accueil.html",
     regions=regions,
-professions=professions)
+    professions=professions)
  finally:
     session.close()
