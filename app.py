@@ -1,8 +1,10 @@
 from flask import Flask
 from config import Config
 from controllers.accueil import bp_accueil
+from controllers.api import bp_api
 
 app = Flask(__name__)
+app.register_blueprint(bp_api)
 app.config.from_object(Config)
 # Enregistrement des contrôleurs (blueprints)
 app.register_blueprint(bp_accueil)
