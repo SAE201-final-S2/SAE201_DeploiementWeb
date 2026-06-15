@@ -10,12 +10,12 @@ api = AmeliAPI()
 def afficher():
     """Affiche les effectifs pour la sélection de l'utilisateur."""
     profession_id = request.args.get("profession_id", type=int)
-    departement_id = request.args.get("departement_id", type=int)
+    departement_code= request.args.get("departement_code", type=int)
     annee = request.args.get("annee", type=int)
     session = Session()
     try:
         prof = session.get(ProfessionSante, profession_id)
-        dept = session.get(Departement, departement_id)
+        dept = session.get(Departement, departement_code)
         if not prof or not dept or not annee:
             return render_template("erreur.html",
                                    message="Paramètres manquants."), 400
