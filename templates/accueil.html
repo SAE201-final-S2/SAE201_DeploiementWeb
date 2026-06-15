@@ -2,7 +2,7 @@
 {% block titre %}Accueil{% endblock %}
 {% block contenu %}
  <h2>Consulter les effectifs</h2>
- {#<form action="{{ url_for('effectifs.afficher') }}" method="get">#}
+ <form action="{{ url_for('effectifs.afficher') }}" method="get">
  <label for="profession">Profession</label>
  <select name="profession_id" id="profession" required>
  <option value="">-- Choisir --</option>

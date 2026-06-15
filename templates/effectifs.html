@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titre %}Effectifs{% endblock %}
+{% block contenu %}
+    {{ prof.libelle }} – {{ dept.code }} {{ dept.libelle }} – {{ annee }}
+
+    {% if resultats %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Année</th>
+                    <th>Effectif</th>
+                    <th>Densité</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in resultats %}
+                    <tr>
+                        <td>{{ r.annee }}</td>
+                        <td>{{ r.effectif }}</td>
+                        <td>{{ r.densite }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucune donnée disponible pour cette sélection.</p>
+    {% endif %}
+
+    <h2>Évolution sur plusieurs années</h2>
+{% endblock %}
