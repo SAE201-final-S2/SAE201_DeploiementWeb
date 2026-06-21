@@ -10,8 +10,7 @@ app.register_blueprint(bp_effectifs)
 app.config.from_object(Config)
 # Enregistrement des contrôleurs (blueprints)
 app.register_blueprint(bp_accueil)
-if __name__ == "__main__":
- app.run(debug=True)
+
 @app.errorhandler(404)
 def page_non_trouvee(e):
  return render_template("erreur.html",
@@ -20,4 +19,6 @@ def page_non_trouvee(e):
 def erreur_serveur(e):
  return render_template("erreur.html",
  message="Erreur interne. Réessayez plus tard."), 500
+if __name__ == "__main__":
+ app.run(debug=True)
 
