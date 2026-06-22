@@ -42,13 +42,15 @@
                 const yEffectifs = evoData.map(ev => ev.effectif);
 
                 Plotly.newPlot('plotly-chart', [{
-                    x: xAnnees,
-                    y: yEffectifs,
-                    type: 'bar',
-                    marker: { color: '#0056b3' }
-                }], {
-                    margin: { t: 20, b: 40, l: 50, r: 10 }
-                });
+    x: xAnnees,
+    y: yEffectifs,
+    type: 'bar',
+    marker: { color: '#0056b3' }
+}], {
+    margin: { t: 20, b: 60, l: 70, r: 10 },
+    xaxis: { title: { text: 'Années' } },
+    yaxis: { title: { text: 'Effectifs' } }
+});
             } else {
                 document.getElementById('plotly-chart').innerHTML = "<p>Aucun historique disponible.</p>";
             }
