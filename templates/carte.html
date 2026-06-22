@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+{% endblock %}
+
+{% block contenu %}
+
+<h2>Carte de la France</h2>
+
+<form id="form">
+    <button type="submit">Afficher</button>
+</form>
+
+<div id="map" style="height:600px;"></div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="{{ url_for('static', filename='js/carte.js') }}"></script>
+{% endblock %}
