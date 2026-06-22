@@ -27,4 +27,32 @@
     {% endif %}
 
     <h2>Évolution sur plusieurs années</h2>
+
+    <div id="plotly-chart" style="height: 350px; margin-top: 20px;"></div>
+
+    <script>
+        const evoData = {{ evolution | tojson if evolution else '[]' }};
+    </script>
+
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (evoData.length > 0) {
+                const xAnnees = evoData.map(ev => String(ev.annee).split("-")[0]);
+                const yEffectifs = evoData.map(ev => ev.effectif);
+
+                Plotly.newPlot('plotly-chart', [{
+                    x: xAnnees,
+                    y: yEffectifs,
+                    type: 'bar',
+                    marker: { color: '#0056b3' }
+                }], {
+                    margin: { t: 20, b: 40, l: 50, r: 10 }
+                });
+            } else {
+                document.getElementById('plotly-chart').innerHTML = "<p>Aucun historique disponible.</p>";
+            }
+        });
+    </script>
+    </script>
 {% endblock %}

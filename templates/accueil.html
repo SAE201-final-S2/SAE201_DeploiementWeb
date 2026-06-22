@@ -29,8 +29,12 @@
  </select>
  <button type="submit">Afficher les effectifs</button>
  </form>
+ <div id="graph-container" style="display: none; margin-top: 30px; background: #fff; padding: 15px; border: 1px solid #eee; border-radius: 4px;">
+     <div id="plotly-chart"></div>
+ </div>
  <script>const BASE_URL = "{{ BASE_URL }}";</script>
  <script src="{{ url_for('static', filename='js/cascade.js') }}"></script>
+ <script src="{{ url_for('static', filename='js/graphique.js') }}"></script>
 {% endblock %}
 
 <!-- On a modifié region_id par region_code --->

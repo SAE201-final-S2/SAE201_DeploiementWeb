@@ -10,7 +10,7 @@ api = AmeliAPI()
 def afficher():
     """Affiche les effectifs pour la sélection de l'utilisateur."""
     profession_id = request.args.get("profession_id", type=int)
-    departement_code= request.args.get("departement_code", type=int)
+    departement_code= request.args.get("departement_code", type=str)
     annee = request.args.get("annee", type=int)
     session = Session()
     try:
