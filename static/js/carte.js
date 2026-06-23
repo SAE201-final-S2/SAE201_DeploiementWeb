@@ -32,16 +32,23 @@ document.addEventListener("DOMContentLoaded", function () {
         return await res.json();
     }
 
-    async function loadData() {
-        let res = await fetch('/api/carte');
-        return await res.json();
-    }
-
-    document.getElementById("form").addEventListener("submit", async function(e){
+    document.getElementById("form-carte").addEventListener("submit", async function (e) {
         e.preventDefault();
 
+        const professionId = document.getElementById("profession").value;
+        const annee = document.getElementById("annee").value;
+        const statut = document.getElementById("carte-statut");
+
+        if (!professionId) {
+            statut.textContent = "Veuillez choisir une profession.";
+            return;
+        }
+
+        statut.textContent = "Chargement des données… (peut prendre quelques secondes)";
+
         let geojson = await loadGeoJSON();
-        let data = await loadData();
+        let res = await fetch(`/api/carte?profession_id=${professionId}&annee=${annee}`);
+        let data = await res.json();
 
         let densites = {};
         data.forEach(d => densites[d.code] = d.densite);
@@ -49,10 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (layer) map.removeLayer(layer);
 
         layer = L.geoJSON(geojson, {
-
-            style: function(feature){
+            style: function (feature) {
                 let d = densites[getCode(feature)];
-
                 return {
                     color: "#333",
                     weight: 1,
@@ -60,33 +65,29 @@ document.addEventListener("DOMContentLoaded", function () {
                     fillOpacity: 0.7
                 };
             },
-
-            onEachFeature: function(feature, layer){
+            onEachFeature: function (feature, layer) {
                 let code = getCode(feature);
                 let d = densites[code];
-
                 layer.bindPopup(
                     "<strong>Département " + code + "</strong><br>" +
-                    "Densité : " + (d ? d : "Non disponible")
+                    "Densité : " + (d !== undefined ? d : "Non disponible")
                 );
             }
-
         }).addTo(map);
+
+        statut.textContent = "Carte chargée.";
     });
 
+    // Légende
     let legend = L.control({ position: "bottomright" });
-
     legend.onAdd = function () {
         let div = L.DomUtil.create("div");
-
         div.style.background = "white";
         div.style.padding = "8px";
         div.style.border = "1px solid black";
         div.style.fontSize = "14px";
-
         let grades = [0, 20, 40, 70, 100, 150];
         let colors = ["#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"];
-
         for (let i = 0; i < grades.length; i++) {
             div.innerHTML +=
                 '<div style="display:flex; align-items:center;">' +
@@ -94,10 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 grades[i] + (grades[i + 1] ? " - " + grades[i + 1] : "+") +
                 "</div>";
         }
-
         return div;
     };
-
     legend.addTo(map);
-
 });
