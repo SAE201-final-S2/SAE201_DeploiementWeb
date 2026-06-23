@@ -18,7 +18,7 @@
 <!-- ── Header dégradé vert/bleu ── -->
 <header>
     <div class="logo">Santéo</div>
-    <img src="{{ url_for('static', filename='images/logo_upec_iut.png') }}"
+    <img src="{{ url_for('static', filename='images/upec-iutcv_info-white.png') }}"
          alt="UPEC IUT" class="logo-img">
 </header>
 
@@ -43,6 +43,10 @@
     <a href="#"
        class="{% if request.endpoint and request.endpoint.startswith('apropos') %}active{% endif %}">
         à propos...
+    </a>
+    <a href="{{ url_for('erreur') }}"
+   class="{% if request.endpoint == 'erreur' %}active{% endif %}">
+    Erreur (test)
     </a>
 </nav>
 
