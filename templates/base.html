@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block titre %}Santéo{% endblock %} · Santéo</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+
+<!-- ── Header dégradé vert/bleu ── -->
+<header>
+  <div class="logo">Santéo</div>
+  <div class="header-title"></div>
+  <div class="right-group">
+    <nav class="nav-centered">
+        <a href="{{ url_for('accueil.index') }}"
+           class="{% if request.endpoint == 'accueil.index' %}active{% endif %}">
+            Accueil
+        </a>
+        <a href="{{ url_for('carte.afficher_carte') }}"
+           class="{% if request.endpoint == 'carte.afficher_carte' %}active{% endif %}">
+            Carte
+        </a>
+        <a href="{{ url_for('comparaison.afficher') }}"
+           class="{% if request.endpoint == 'comparaison.afficher' %}active{% endif %}">
+            Comparaison
+        </a>
+        <a href="{{ url_for('honoraires.afficher') }}"
+           class="{% if request.endpoint == 'honoraires.afficher' %}active{% endif %}">
+            Honoraires
+        </a>
+        <a href="{{ url_for('prescriptions.afficher') }}"
+           class="{% if request.endpoint == 'prescriptions.afficher' %}active{% endif %}">
+            Prescriptions
+        </a>
+        <a href="{{ url_for('apropos.index') }}"
+           class="{% if request.endpoint == 'apropos.index' %}active{% endif %}">
+            À propos
+        </a>
+        <a href="{{ url_for('admin.dashboard') }}"
+           class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+            Administration
+        </a>
+    </nav>
+    <img class="logo-img" src="{{ url_for('static', filename='images/upec_iut_info-black.png') }}" alt="UPEC">
+  </div>
+</header>
+
+<!-- ── Contenu principal ── -->
+<main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block contenu %}{% endblock %}
+</main>
+
+<!-- ── Footer ── -->
+<footer>
+    <p>SAE2.01 · BUT Informatique · IUT Créteil-Vitry · Données : ameli.fr</p>
+    <div class="info-row">
+        <div class="info-card">
+            <h3>Source des données</h3>
+            <p>Les données proviennent de l'API open data d'ameli.fr, mise à jour annuellement par l'Assurance Maladie.</p>
+        </div>
+        <div class="info-card">
+            <h3>Visualisations</h3>
+            <p>Tableaux comparatifs et graphiques d'évolution disponibles après sélection des critères.</p>
+        </div>
+        <div class="info-card">
+            <h3>Granularité</h3>
+            <p>Données disponibles à l'échelle nationale, régionale et départementale.</p>
+        </div>
+    </div>
+</footer>
+
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

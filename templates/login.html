@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block titre %}Connexion{% endblock %}
+
+{% block contenu %}
+<div class="hero-section">
+  <div style="display: flex; align-items: center; gap: 1rem;">
+    <div class="page-header-icon">🔐</div>
+    <div>
+      <h1>Connexion administrateur</h1>
+      <p class="subtitle">Accédez au panneau d'administration</p>
+    </div>
+  </div>
+</div>
+
+<!-- Carte de formulaire -->
+<div class="form-card" style="max-width: 420px; margin: 0 auto;">
+  <form method="post">
+    {% if erreur %}
+      <div class="error-message" style="margin-bottom: 1.25rem;">
+        {{ erreur }}
+      </div>
+    {% endif %}
+
+    <div class="field">
+      <label for="username">Nom d'utilisateur</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        required
+        placeholder="Entrez votre identifiant"
+      >
+    </div>
+
+    <div class="field">
+      <label for="password">Mot de passe</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+        placeholder="mot de passe"
+      >
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn">Se connecter</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

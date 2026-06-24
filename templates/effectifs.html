@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block titre %}Effectifs{% endblock %}
+
+{% block contenu %}
+{# prettier-ignore #}
+
+<!-- Page header -->
+<div class="page-header">
+    <div class="page-header-icon">📊</div>
+    <div>
+        <h1>{{ prof.libelle }}</h1>
+        <p class="subtitle">{{ dept.code }} · {{ dept.libelle }} · {{ annee }}</p>
+    </div>
+</div>
+
+<!-- Stats rapides -->
+<div class="stats-row">
+    {% if resultats %}
+        <div class="stat-card">
+            <div class="stat-label">Effectif {{ annee }}</div>
+            <div class="stat-value">{{ resultats[0].effectif | int }}</div>
+            <div class="stat-sub">professionnels recensés</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Densité</div>
+            <div class="stat-value">{{ resultats[0].densite }}</div>
+            <div class="stat-sub">pour 100 000 habitants</div>
+        </div>
+    {% endif %}
+    <div class="stat-card">
+        <div class="stat-label">Département</div>
+        <div class="stat-value">{{ dept.code }}</div>
+        <div class="stat-sub">{{ dept.libelle }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Années de données</div>
+        <div class="stat-value">{{ evolution | length }}</div>
+        <div class="stat-sub">disponibles</div>
+    </div>
+</div>
+
+<!-- Grille : tableau + graphique -->
+<div class="charts-grid">
+
+    <!-- Tableau des résultats -->
+    <div class="card">
+        <h2>Données détaillées</h2>
+        <p class="card-sub">Effectifs et densités par année</p>
+
+        {% if resultats %}
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Année</th>
+                            <th>Effectif</th>
+                            <th>Densité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in resultats %}
+                            <tr>
+                                <td>{{ r.annee }}</td>
+                                <td>{{ r.effectif | int }}</td>
+                                <td>{{ r.densite }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p style="color: var(--muted); font-size: .9rem; padding: 1rem 0;">
+                Aucune donnée disponible pour cette sélection.
+            </p>
+        {% endif %}
+    </div>
+
+    <!-- Graphique évolution -->
+    <div class="card">
+        <h2>Évolution sur plusieurs années</h2>
+
+    <div id="plotly-chart" style="height: 350px; margin-top: 20px;"></div>
+
+    <script>
+        const evoData = {{ evolution | tojson if evolution else '[]' }};
+    </script>
+
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (evoData.length > 0) {
+                const xAnnees = evoData.map(ev => String(ev.annee).split("-")[0]);
+                const yEffectifs = evoData.map(ev => ev.effectif);
+
+                Plotly.newPlot('plotly-chart', [{
+    x: xAnnees,
+    y: yEffectifs,
+    type: 'scater',
+    marker: { color: 'navy' }
+}], {
+    margin: { t: 20, b: 60, l: 70, r: 10 },
+    xaxis: { title: { text: 'Années' } },
+    yaxis: { title: { text: 'Effectifs' } }
+});
+            } else {
+                document.getElementById('plotly-chart').innerHTML = "<p>Aucun historique disponible.</p>";
+            }
+        });
+    </script>
+    </div>
+    </script>
+{% endblock %}

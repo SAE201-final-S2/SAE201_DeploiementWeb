@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block titre %}Comparaison{% endblock %}
+
+{% block head %}
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+{% endblock %}
+
+{% block contenu %}
+
+<div class="page-header">
+    <div class="page-header-icon">⚖️</div>
+    <div>
+        <h1>Comparer deux séries de données</h1>
+        <div class="subtitle">Comparez l'évolution de deux professions ou départements</div>
+    </div>
+</div>
+
+<div class="charts-grid" style="margin-bottom: 1.25rem;">
+
+    <!-- Série 1 -->
+    <div class="form-card">
+        <div class="form-card-header">
+            <span class="form-card-icon" style="color:#2563eb;">🔵</span>
+            <div>
+                <h2>Série 1</h2>
+                <p class="form-card-sub">Courbe bleue</p>
+            </div>
+        </div>
+        <form method="get" action="{{ url_for('comparaison.afficher') }}">
+            <input type="hidden" name="profession2_id"    value="{{ request.args.get('profession2_id', '') }}">
+            <input type="hidden" name="departement2_code" value="{{ request.args.get('departement2_code', '') }}">
+            <input type="hidden" name="annee2"            value="{{ request.args.get('annee2', '') }}">
+
+            <div class="form-grid">
+                <div class="field">
+                    <label>Profession</label>
+                    <select name="profession1_id" required>
+                        <option value="">— Choisir —</option>
+                        {% for p in professions %}
+                            <option value="{{ p.id }}"
+                                {% if request.args.get('profession1_id')|int == p.id %}selected{% endif %}>
+                                {{ p.libelle }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Département</label>
+                    <select name="departement1_code" required>
+                        <option value="">— Choisir —</option>
+                        {% for d in departements %}
+                            <option value="{{ d.code }}"
+                                {% if request.args.get('departement1_code') == d.code %}selected{% endif %}>
+                                {{ d.code }} – {{ d.libelle }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Année</label>
+                    <select name="annee1">
+                        {% for a in range(2023, 2014, -1) %}
+                            <option value="{{ a }}"
+                                {% if request.args.get('annee1')|int == a %}selected{% endif %}>
+                                {{ a }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn">🔵 Afficher série 1</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Série 2 -->
+    <div class="form-card">
+        <div class="form-card-header">
+            <span class="form-card-icon" style="color:#dc2626;">🔴</span>
+            <div>
+                <h2>Série 2</h2>
+                <p class="form-card-sub">Courbe rouge</p>
+            </div>
+        </div>
+        <form method="get" action="{{ url_for('comparaison.afficher') }}">
+            <input type="hidden" name="profession1_id"    value="{{ request.args.get('profession1_id', '') }}">
+            <input type="hidden" name="departement1_code" value="{{ request.args.get('departement1_code', '') }}">
+            <input type="hidden" name="annee1"            value="{{ request.args.get('annee1', '') }}">
+
+            <div class="form-grid">
+                <div class="field">
+                    <label>Profession</label>
+                    <select name="profession2_id" required>
+                        <option value="">— Choisir —</option>
+                        {% for p in professions %}
+                            <option value="{{ p.id }}"
+                                {% if request.args.get('profession2_id')|int == p.id %}selected{% endif %}>
+                                {{ p.libelle }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Département</label>
+                    <select name="departement2_code" required>
+                        <option value="">— Choisir —</option>
+                        {% for d in departements %}
+                            <option value="{{ d.code }}"
+                                {% if request.args.get('departement2_code') == d.code %}selected{% endif %}>
+                                {{ d.code }} – {{ d.libelle }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Année</label>
+                    <select name="annee2">
+                        {% for a in range(2023, 2014, -1) %}
+                            <option value="{{ a }}"
+                                {% if request.args.get('annee2')|int == a %}selected{% endif %}>
+                                {{ a }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn" style="background:#dc2626;">🔴 Afficher série 2</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<!-- Graphique -->
+<div class="card" style="padding: 1.25rem;">
+    <div id="plotly-chart" style="height: 420px;"></div>
+</div>
+
+<script>
+    const evoData1 = {{ evolution1 | tojson if evolution1 else '[]' }};
+    const evoData2 = {{ evolution2 | tojson if evolution2 else '[]' }};
+    const label1   = {{ label1 | tojson }};
+    const label2   = {{ label2 | tojson }};
+</script>
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const traces = [];
+
+        if (evoData1.length > 0) {
+            traces.push({
+                x: evoData1.map(ev => String(ev.annee).split("-")[0]),
+                y: evoData1.map(ev => ev.effectif),
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: label1,
+                marker: { color: 'blue' },
+                line:   { color: 'navy' }
+            });
+        }
+
+        if (evoData2.length > 0) {
+            traces.push({
+                x: evoData2.map(ev => String(ev.annee).split("-")[0]),
+                y: evoData2.map(ev => ev.effectif),
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: label2,
+                marker: { color: 'red', symbol: 'diamond' },
+                line: { color: 'darkred' }
+            });
+        }
+
+        if (traces.length === 0) {
+            document.getElementById('plotly-chart').innerHTML =
+                "<p style='color:var(--muted); padding: 1rem;'>Remplissez au moins un formulaire pour afficher le graphique.</p>";
+            return;
+        }
+
+        Plotly.newPlot('plotly-chart', traces, {
+            margin: { t: 20, b: 60, l: 70, r: 10 },
+            xaxis: { title: { text: 'Année' } },
+            yaxis: { title: { text: 'Effectif' } },
+            legend: { orientation: 'h', y: -0.2 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)'
+        });
+    });
+</script>
+{% endblock %}
+
+{% endblock %}

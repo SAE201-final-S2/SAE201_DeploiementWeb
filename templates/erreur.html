@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block titre %}Erreur{% endblock %}
+
+{% block contenu %}
+<div class="error-container">
+
+    <div class="error-code">⚠</div>
+
+    <h1 class="error-title">Une erreur est survenue</h1>
+
+    <p class="error-message">{{ message }}</p>
+
+    <div class="error-details">
+        <p>Cela peut être dû à :</p>
+        <ul>
+            <li>Une ressource introuvable</li>
+            <li>Un problème de connexion à la base de données</li>
+            <li>Une erreur interne du serveur</li>
+        </ul>
+    </div>
+
+    <a href="{{ url_for('accueil.index') }}" class="error-btn">
+        ← Retour à l'accueil
+    </a>
+
+</div>
+{% endblock %}

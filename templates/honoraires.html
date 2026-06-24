@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% block titre %}Honoraires{% endblock %}
+{% block contenu %}
+
+<div class="page-header">
+    <div class="page-header-icon">💵</div>
+    <div>
+        <h1>Honoraires par profession et territoire</h1>
+        <p class="subtitle">Sélectionnez une profession, un territoire et un type d'honoraire.</p>
+    </div>
+</div>
+
+<div class="form-card">
+    <h2>Filtrer les honoraires</h2>
+    <form action="{{ url_for('honoraires.afficher') }}" method="get">
+        <div class="form-grid">
+            <div class="field">
+                <label for="profession">Profession</label>
+                <select name="profession_id" id="profession" required>
+                    <option value="">— Choisir une profession —</option>
+                    {% for p in professions %}
+                        <option value="{{ p.id }}" {% if prof and p.id == prof.id %}selected{% endif %}>
+                            {{ p.libelle }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="region">Région</label>
+                <select name="region_code" id="region" required>
+                    <option value="">— Choisir une région —</option>
+                    {% for r in regions %}
+                        <option value="{{ r.code }}" {% if dept and r.code == dept.region_code %}selected{% endif %}>
+                            {{ r.libelle }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="departement">Département</label>
+                <select name="departement_code" id="departement" required>
+                    {% if dept %}
+                        <option value="{{ dept.code }}" selected>{{ dept.code }} – {{ dept.libelle }}</option>
+                    {% else %}
+                        <option value="">— Choisir une région d'abord —</option>
+                    {% endif %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="annee">Année</label>
+                <select name="annee" id="annee" required>
+                    {% for a in range(2023, 2014, -1) %}
+                        <option value="{{ a }}" {% if annee == a %}selected{% endif %}>{{ a }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="type_niv1">Type d'honoraire</label>
+                <input type="hidden" name="type_honoraire_id" id="type_honoraire_id"
+                       value="{{ type_hon.id if type_hon else '' }}"
+                       data-n1="{{ type_hon.niveau_1 or '' }}"
+                       data-n2="{{ type_hon.niveau_2 or '' }}"
+                       data-n3="{{ type_hon.niveau_3 or '' }}">
+                <select id="type_niv1" name="type_niv1" aria-label="Niveau 1">
+                    <option value="">-- Choisir --</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="type_niv2">Sous-type</label>
+                <select id="type_niv2" name="type_niv2" aria-label="Niveau 2" disabled></select>
+            </div>
+            <div class="field">
+                <label for="type_niv3">Détail</label>
+                <select id="type_niv3" name="type_niv3" aria-label="Niveau 3" disabled></select>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn">Afficher les honoraires</button>
+        </div>
+    </form>
+    <script>
+        window.typesHon = [
+            {% for th in types_honoraire %}
+            {
+                "id": {{ th.id }},
+                "niveau_1": {{ th.niveau_1|tojson }},
+                "niveau_2": {{ th.niveau_2|tojson }},
+                "niveau_3": {{ th.niveau_3|tojson }}
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ];
+    </script>
+</div>
+
+{% if prof and dept %}
+    <div class="charts-grid">
+        <div class="card">
+            <h2>Données détaillées</h2>
+            <p class="card-sub">Liste des montants par type d'honoraire.</p>
+            {% if resultats %}
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Année</th>
+                                <th>Niveau 1</th>
+                                <th>Niveau 2</th>
+                                <th>Niveau 3</th>
+                                <th>Total (€)</th>
+                                <th>Moyen (€)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for r in resultats %}
+                                <tr>
+                                    <td>{{ r.get('annee', 'NS') }}</td>
+                                    <td>{{ r.get('type_honoraires_niveau_1', 'NS') }}</td>
+                                    <td>{{ r.get('type_honoraires_niveau_2', 'NS') }}</td>
+                                    <td>{{ r.get('type_honoraires_niveau_3', 'NS') }}</td>
+                                    <td>{{ r.get('montant_honoraires', 'NS') }}</td>
+                                    <td>{{ r.get('montant_honoraires_moyens', 'NS') }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p style="color: var(--muted); font-size:.95rem; padding:1rem 0;">Aucune donnée disponible pour cette sélection.</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2>Évolution des honoraires</h2>
+            <p class="card-sub">Visualisation de la tendance sur les années.</p>
+            <div id="plotly-chart" style="min-height: 320px;"></div>
+        </div>
+    </div>
+
+    <script>const evoData = {{ evolution | tojson if evolution else '[]' }};</script>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (evoData.length > 0) {
+                const x = evoData.map(ev => String(ev.annee).split("-")[0]);
+                Plotly.newPlot('plotly-chart', [
+                    {
+                        x,
+                        y: evoData.map(ev => ev.montant_honoraires),
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        name: 'Montant totaux',
+                        marker: { color: 'steelblue' }
+                    },
+                    {
+                        x,
+                        y: evoData.map(ev => ev.montant_honoraires_moyens),
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        name: 'Montant moyens',
+                        marker: { color: 'orange' },
+                        yaxis: 'y2'
+                    }
+                ], {
+                    margin: { t: 20, b: 60, l: 80, r: 80 },
+                    xaxis: { title: { text: 'Années' } },
+                    yaxis: { title: { text: 'Total (€)' } },
+                    yaxis2: { title: { text: 'Moyen (€)' }, overlaying: 'y', side: 'right' },
+                    legend: { orientation: 'h', y: -0.2 }
+                });
+            } else {
+                document.getElementById('plotly-chart').innerHTML = "<p>Aucun historique disponible.</p>";
+            }
+        });
+    </script>
+{% endif %}
+
+<script>const BASE_URL = "{{ BASE_URL }}";</script>
+<script src="{{ url_for('static', filename='js/type_cascade.js') }}"></script>
+<script src="{{ url_for('static', filename='js/cascade.js') }}"></script>
+{% endblock %}
