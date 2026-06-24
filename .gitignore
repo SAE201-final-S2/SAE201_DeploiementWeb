@@ -5,3 +5,4 @@ venv/
 .vscode/
 *.zip
 scrnshts/
+*.pdf

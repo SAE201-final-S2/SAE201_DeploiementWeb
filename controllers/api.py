@@ -4,6 +4,7 @@ from models.dimensions import Departement
 from services.ameli_api import AmeliAPI
 
 bp_api = Blueprint("api", __name__, url_prefix="/api")
+api_ameli = AmeliAPI()
 
 @bp_api.route("/departements/<string:region_code>")
 def departements(region_code):
