@@ -11,19 +11,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    {% block head %}{% endblock %}
 </head>
 
 <body>
 
 <!-- ── Header dégradé vert/bleu ── -->
 <header>
-    <div class="logo">Santéo</div>
-    <img src="{{ url_for('static', filename='images/upec-iutcv_info-white.png') }}"
-         alt="UPEC IUT" class="logo-img">
+  <div class="logo">Santéo</div>
+  <div class="header-title">Data d'Ameli</div> 
+  <img class="logo-img" src="{{ url_for('static', filename='images/upec_iut_info-white.png') }}" alt="UPEC">
 </header>
 
 <!-- ── Nav horizontale séparée ── -->
-<nav>
+<nav class="nav-centered">
     <a href="{{ url_for('accueil.index') }}"
        class="{% if request.endpoint == 'accueil.index' %}active{% endif %}">
         Accueil
@@ -32,21 +34,31 @@
        class="{% if request.endpoint and request.endpoint.startswith('informations') %}active{% endif %}">
         Informations
     </a>
-    <a href="#"
-       class="nav-bold {% if request.endpoint and request.endpoint.startswith('maladies') %}active{% endif %}">
-        Maladies et prévention
-    </a>
     <a href="{{ url_for('data.index') }}"
        class="{% if request.endpoint and request.endpoint.startswith('data') %}active{% endif %}">
         Data
     </a>
-    <a href="#"
-       class="{% if request.endpoint and request.endpoint.startswith('apropos') %}active{% endif %}">
-        à propos...
-    </a>
     <a href="{{ url_for('erreur') }}"
-   class="{% if request.endpoint == 'erreur' %}active{% endif %}">
-    Erreur (test)
+       class="{% if request.endpoint == 'erreur' %}active{% endif %}">
+        Erreur (test)
+    </a>
+    <a href="{{ url_for('carte.afficher_carte') }}"
+       class="{% if request.endpoint == 'carte.afficher_carte' %}active{% endif %}">
+        Carte
+    </a>
+    <a href="{{ url_for('comparaison.afficher') }}"
+   class="{% if request.endpoint == 'comparaison.afficher' %}active{% endif %}">
+    Comparaison
+    </a>
+    <a href="{{ url_for('apropos.index') }}"
+   class="{% if request.endpoint == 'apropos.index' %}active{% endif %}">
+    À propos
+    </a>
+    </a>
+    <a href="{{ url_for('auth.login') }}">Se connecter</a>
+    <a href="{{ url_for('admin.dashboard') }}"
+   class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+    Administration
     </a>
 </nav>
 
@@ -66,7 +78,23 @@
 <!-- ── Footer ── -->
 <footer>
     <p>SAE2.01 · BUT Informatique · IUT Créteil-Vitry · Données : ameli.fr</p>
+    <div class="info-row">
+        <div class="info-card">
+            <h3>Source des données</h3>
+            <p>Les données proviennent de l'API open data d'ameli.fr, mise à jour annuellement par l'Assurance Maladie.</p>
+        </div>
+        <div class="info-card">
+            <h3>Visualisations</h3>
+            <p>Tableaux comparatifs et graphiques d'évolution disponibles après sélection des critères.</p>
+        </div>
+        <div class="info-card">
+            <h3>Granularité</h3>
+            <p>Données disponibles à l'échelle nationale, régionale et départementale.</p>
+        </div>
+    </div>
 </footer>
+
+{% block scripts %}{% endblock %}
 
 </body>
 </html>
