@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block titre %}Prescriptions{% endblock %}
+{% block contenu %}
+
+<div class="page-header">
+    <div class="page-header-icon">🧾</div>
+    <div>
+        <h1>Prescriptions par profession et territoire</h1>
+        <p class="subtitle">Choisissez une profession, un territoire et un poste pour afficher les données.</p>
+    </div>
+</div>
+
+<div class="form-card">
+    <h2>Filtrer les prescriptions</h2>
+    <form action="{{ url_for('prescriptions.afficher') }}" method="get">
+        <div class="form-grid">
+            <div class="field">
+                <label for="profession">Profession</label>
+                <select name="profession_id" id="profession" required>
+                    <option value="">— Choisir une profession —</option>
+                    {% for p in professions %}
+                        <option value="{{ p.id }}" {% if prof and p.id == prof.id %}selected{% endif %}>
+                            {{ p.libelle }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="region">Région</label>
+                <select name="region_code" id="region" required>
+                    <option value="">— Choisir une région —</option>
+                    {% for r in regions %}
+                        <option value="{{ r.code }}" {% if dept and r.code == dept.region_code %}selected{% endif %}>
+                            {{ r.libelle }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="departement">Département</label>
+                <select name="departement_code" id="departement" required>
+                    {% if dept %}
+                        <option value="{{ dept.code }}" selected>{{ dept.code }} – {{ dept.libelle }}</option>
+                    {% else %}
+                        <option value="">— Choisir une région d'abord —</option>
+                    {% endif %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="type_prescription_id">Poste de prescription</label>
+                <select name="type_prescription_id" id="type_prescription_id" required>
+                    <option value="">— Choisir un poste —</option>
+                    {% for tp in types_prescription %}
+                        <option value="{{ tp.id }}" {% if type_presc and tp.id == type_presc.id %}selected{% endif %}>
+                            {{ tp.libelle }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="annee">Année</label>
+                <select name="annee" id="annee" required>
+                    {% for a in range(2023, 2014, -1) %}
+                        <option value="{{ a }}" {% if annee == a %}selected{% endif %}>{{ a }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn">Afficher les prescriptions</button>
+        </div>
+    </form>
+</div>
+
+{% if prof and dept and type_presc %}
+    <div class="charts-grid">
+        <div class="card">
+            <h2>Données détaillées</h2>
+            <p class="card-sub">Montants de prescription pour la sélection.</p>
+            {% if resultats %}
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Année</th>
+                                <th>Poste</th>
+                                <th>Total (€)</th>
+                                <th>Moyen (€)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for r in resultats %}
+                                <tr>
+                                    <td>{{ r.get('annee', 'NS') }}</td>
+                                    <td>{{ r.get('libelle_poste_prescription', r.get('poste_prescription', 'NS')) }}</td>
+                                    <td>{{ "{:,}".format(r.get('montant_total_prescription')|int) if r.get('montant_total_prescription') not in [None, ''] else 'NS' }}</td>
+                                    <td>{{ "{:,}".format(r.get('montant_moyen_prescription')|int) if r.get('montant_moyen_prescription') not in [None, ''] else 'NS' }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p style="color: var(--muted); font-size:.95rem; padding:1rem 0;">Aucune donnée disponible pour cette sélection.</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2>Évolution des prescriptions</h2>
+            <p class="card-sub">Graphique des montants totaux et moyens.</p>
+            <div id="plotly-chart" style="min-height: 320px;"></div>
+        </div>
+    </div>
+
+    <script>const evoData = {{ evolution | tojson if evolution else '[]' }};</script>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (evoData.length > 0) {
+                const x = evoData.map(ev => String(ev.annee).split("-")[0]);
+                Plotly.newPlot('plotly-chart', [
+                    {
+                        x,
+                        y: evoData.map(ev => ev.montant_total_prescription),
+                        type: 'bar',
+                        name: 'Montant total',
+                        marker: { color: 'steelblue' }
+                    },
+                    {
+                        x,
+                        y: evoData.map(ev => ev.montant_moyen_prescription),
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        name: 'Montant moyen',
+                        marker: { color: 'darkorange' },
+                        yaxis: 'y2'
+                    }
+                ], {
+                    margin: { t: 20, b: 60, l: 80, r: 80 },
+                    xaxis: { title: { text: 'Années' } },
+                    yaxis: { title: { text: 'Total (€)' } },
+                    yaxis2: { title: { text: 'Moyen (€)' }, overlaying: 'y', side: 'right' },
+                    legend: { orientation: 'h', y: -0.2 },
+                    barmode: 'group'
+                });
+            } else {
+                document.getElementById('plotly-chart').innerHTML = "<p>Aucun historique disponible.</p>";
+            }
+        });
+    </script>
+{% endif %}
+
+<script>const BASE_URL = "{{ BASE_URL }}";</script>
+<script src="{{ url_for('static', filename='js/cascade.js') }}"></script>
+{% endblock %}

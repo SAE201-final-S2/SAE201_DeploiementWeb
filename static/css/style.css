@@ -200,10 +200,11 @@ main {
     box-shadow: var(--shadow);
 }
 
-.card h2 {
+.card h2,
+.form-card h2 {
     font-size: .95rem;
     font-weight: 700;
-    margin-bottom: .2rem;
+    margin-bottom: .8rem;
 }
 
 .card .card-sub {

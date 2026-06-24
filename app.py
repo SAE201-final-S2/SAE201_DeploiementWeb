@@ -8,6 +8,8 @@ from controllers.data import bp_data
 from controllers.apropos import bp_apropos
 from controllers.carte import bp_carte
 from controllers.comparaison import bp_comparaison
+from controllers.honoraires import bp_honoraires
+from controllers.prescriptions import bp_prescriptions
 from controllers.auth import bp_auth 
 from controllers.admin import bp_admin
 
@@ -22,6 +24,8 @@ app.register_blueprint(bp_data)
 app.register_blueprint(bp_apropos)
 app.register_blueprint(bp_carte)
 app.register_blueprint(bp_comparaison)
+app.register_blueprint(bp_honoraires)
+app.register_blueprint(bp_prescriptions)
 app.register_blueprint(bp_auth)  
 app.register_blueprint(bp_admin) 
 

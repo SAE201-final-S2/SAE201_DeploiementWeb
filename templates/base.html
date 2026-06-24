@@ -39,12 +39,20 @@
         Carte
     </a>
     <a href="{{ url_for('comparaison.afficher') }}"
-   class="{% if request.endpoint == 'comparaison.afficher' %}active{% endif %}">
-    Comparaison
+       class="{% if request.endpoint == 'comparaison.afficher' %}active{% endif %}">
+        Comparaison
+    </a>
+    <a href="{{ url_for('honoraires.afficher') }}"
+       class="{% if request.endpoint == 'honoraires.afficher' %}active{% endif %}">
+        Honoraires
+    </a>
+    <a href="{{ url_for('prescriptions.afficher') }}"
+       class="{% if request.endpoint == 'prescriptions.afficher' %}active{% endif %}">
+        Prescriptions
     </a>
     <a href="{{ url_for('apropos.index') }}"
-   class="{% if request.endpoint == 'apropos.index' %}active{% endif %}">
-    À propos
+       class="{% if request.endpoint == 'apropos.index' %}active{% endif %}">
+        À propos
     </a>
     </a>
     <a href="{{ url_for('admin.dashboard') }}"

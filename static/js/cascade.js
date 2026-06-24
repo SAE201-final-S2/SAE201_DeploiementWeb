@@ -1,21 +1,35 @@
-document.getElementById("region").addEventListener("change", async (e) => {
-  const regionId = e.target.value;
+const regionSelect = document.getElementById("region");
+if (regionSelect) {
   const selectDept = document.getElementById("departement");
-  
-  selectDept.innerHTML = '<option value="">-- Choisir --</option>';
-  
-  if (!regionId) return;
-  
-  const response = await fetch(`${BASE_URL}/api/departements/${regionId}`);
-  const depts = await response.json();
-  
-  for (const dept of depts) {
-    const opt = document.createElement("option");
-    opt.value = dept.code;
-    opt.textContent = `${dept.code} – ${dept.libelle}`;
-    selectDept.appendChild(opt);
+
+  async function fillDepartements(regionId, selectedDept = "") {
+    selectDept.innerHTML = '<option value="">-- Choisir --</option>';
+    if (!regionId) return;
+
+    const response = await fetch(`${BASE_URL}/api/departements/${regionId}`);
+    const depts = await response.json();
+
+    for (const dept of depts) {
+      const opt = document.createElement("option");
+      opt.value = dept.code;
+      opt.textContent = `${dept.code} – ${dept.libelle}`;
+      if (dept.code === selectedDept) {
+        opt.selected = true;
+      }
+      selectDept.appendChild(opt);
+    }
   }
-});
+
+  regionSelect.addEventListener("change", async (e) => {
+    const regionId = e.target.value;
+    await fillDepartements(regionId);
+  });
+
+  if (regionSelect.value) {
+    const savedDept = selectDept.value || "";
+    fillDepartements(regionSelect.value, savedDept);
+  }
+}
 
 // ── Graphique évolution (page effectifs uniquement) ──────
 const canvas = document.getElementById("chartEvolution");
