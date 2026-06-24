@@ -19,8 +19,10 @@ def afficher():
         if not prof or not dept or not annee:
             return render_template("erreur.html",
                                    message="Paramètres manquants."), 400
+
         resultats = api.get_effectifs(prof.libelle, dept.code, annee)
         evolution = api.get_evolution_effectifs(prof.libelle, dept.code)
+
         return render_template("effectifs.html",
                                prof=prof, dept=dept, annee=annee,
                                resultats=resultats, evolution=evolution)

@@ -48,6 +48,11 @@ header {
     box-shadow: 0 2px 12px rgba(0,0,0,.08);
 }
 
+/* allow absolute centering of nav inside header */
+header {
+    position: relative;
+}
+
 header .logo {
     font-size: 1.6rem;
     font-weight: 800;
@@ -56,7 +61,36 @@ header .logo {
 }
 
 header .logo-img {
-    height: 48px;
+    height: 72px;
+    width: auto;
+}
+
+/* Group nav and right-side logo inside header */
+header .right-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+header nav {
+    background: transparent;
+    border-bottom: none;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end !important;
+}
+
+/* center the navigation horizontally in the header without changing layout flow */
+header nav.nav-centered {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border-bottom: none;
+    padding: 0 0.5rem;
+    z-index: 5;
 }
 
 /* ── Nav horizontale ────────────────────────────────────── */
@@ -733,7 +767,6 @@ footer {
 
 /* ===== CENTRAGE DU MENU ===== */
 nav {
-    justify-content: center !important;  /* Centrage horizontal des liens */
     gap: 1.5rem;  /* Espacement entre les liens */
     padding: 0 1rem;  /* Réduit les marges latérales */
 }

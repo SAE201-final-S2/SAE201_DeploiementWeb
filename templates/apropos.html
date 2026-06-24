@@ -4,7 +4,7 @@
 {% block contenu %}
 
 <div class="page-header">
-    <div class="page-header-icon">i</div>
+    <div class="page-header-icon">ℹ</div>
     <div>
         <h1>À propos de Santéo</h1>
         <div class="subtitle">Projet SAE 2.01 · BUT Informatique · IUT Créteil-Vitry</div>
@@ -18,16 +18,16 @@
     <p style="margin-top: 1rem; line-height: 1.7; color: var(--text);">
         Santéo est une application web développée dans le cadre de la SAE 2.01 du BUT Informatique.
         Elle permet de visualiser et d'explorer les effectifs des professionnels de santé libéraux en France,
-        à partir des données open data de l'Assurance Maladie (ameli.fr).
-        L'application offre des vues par profession, région, département et année, ainsi que des outils
-        de comparaison et de cartographie interactive.
+        à partir des données open data de l'Assurance Maladie.
+        L'application offre des vues sur les effectifs, les honoraires et les prescriptions par profession, région,
+        département et année, ainsi que des outils de comparaison et de cartographie interactive.
     </p>
 </div>
 
 <!-- Équipe -->
 <div class="card" style="margin-bottom: 1.25rem;">
     <h2>L'équipe</h2>
-    <p class="card-sub">Étudiants en BUT Informatique 1ére Année</p>
+    <p class="card-sub">Étudiants en 1ère année de BUT Informatique</p>
     <div class="ranking-list" style="margin-top: 1rem;">
         <div class="ranking-item">
             <div class="ranking-num">👤</div>
@@ -77,10 +77,10 @@
 
     <div class="card">
         <h2>Source des données</h2>
-        <p class="card-sub">Open data · Assurance Maladie</p>
+        <p class="card-sub">Data Ameli · Assurance Maladie</p>
         <div style="margin-top: 1rem; line-height: 1.8; color: var(--text); font-size: .92rem;">
-            <p>Les données proviennent de l'API open data d'<strong>ameli.fr</strong>,
-            mise à disposition par l'Assurance Maladie française.</p>
+            <p>Les données proviennent de l'API open data de <strong>data.ameli.fr</strong>,
+            mise à disposition par l'Assurance Maladie.</p>
             <p style="margin-top: .75rem;">Elles couvrent :</p>
             <ul style="padding-left: 1.25rem; margin-top: .5rem;">
                 <li>38 professions de santé libérales</li>
@@ -94,38 +94,25 @@
                 </a>
             </p>
         </div>
+        
     </div>
 
     <div class="card">
-        <h2>Questions fréquentes</h2>
-        <p class="card-sub">Aide à l'utilisation</p>
-        <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: .75rem;">
-            <details style="border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1rem;">
-                <summary style="font-weight: 600; cursor: pointer; font-size: .92rem;">Comment filtrer les effectifs ?</summary>
-                <p style="margin-top: .5rem; font-size: .88rem; color: var(--muted); line-height: 1.6;">
-                    Depuis la page Accueil, sélectionnez une profession, une région, un département et une année puis cliquez sur "Afficher les effectifs".
-                </p>
-            </details>
-            <details style="border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1rem;">
-                <summary style="font-weight: 600; cursor: pointer; font-size: .92rem;">Comment utiliser la carte ?</summary>
-                <p style="margin-top: .5rem; font-size: .88rem; color: var(--muted); line-height: 1.6;">
-                    Depuis la page Carte, choisissez une profession et une année. La carte affiche la densité par département avec un code couleur.
-                </p>
-            </details>
-            <details style="border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1rem;">
-                <summary style="font-weight: 600; cursor: pointer; font-size: .92rem;">Comment comparer deux professions ?</summary>
-                <p style="margin-top: .5rem; font-size: .88rem; color: var(--muted); line-height: 1.6;">
-                    Depuis la page Comparaison, remplissez les deux formulaires avec des critères différents pour superposer les courbes d'évolution.
-                </p>
-            </details>
-            <details style="border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1rem;">
-                <summary style="font-weight: 600; cursor: pointer; font-size: .92rem;">Les données sont-elles en temps réel ?</summary>
-                <p style="margin-top: .5rem; font-size: .88rem; color: var(--muted); line-height: 1.6;">
-                    Non, les données sont mises à jour annuellement par l'Assurance Maladie. La dernière année disponible est 2023.
-                </p>
-            </details>
-        </div>
+        <h2>Qu'est-ce que Data Ameli ?</h2>
+        <p style="font-size: .92rem; line-height: 1.8; color: var(--text);">
+            L'Assurance Maladie met à disposition en open data des statistiques détaillées sur les
+            professionnels de santé exerçant en médecine libérale sur l'ensemble du territoire
+            national. Ces données sont mises à jour annuellement et couvrent l'ensemble des
+            régions et départements français.
+        </p>
+        <h2 style="margin-top: .75rem;">Méthodologie</h2>
+        <p style="margin-top: 1rem; line-height: 1.8; color: var(--text); font-size: .92rem;">
+            Les données sont extraites via l'API REST de data.ameli.fr
+            qui sont mises à jour annuellement. Seuls sont pris en compte 
+            les professionnels ayant réalisé au moins un acte remboursé dans l'année.
+        </p>
     </div>
+    
 
 </div>
 
@@ -143,9 +130,8 @@
         <span class="tag">Leaflet.js</span>
         <span class="tag">Plotly</span>
         <span class="tag">Chart.js</span>
-        <span class="tag">API ameli.fr</span>
+        <span class="tag">API REST</span>
         <span class="tag">GitHub</span>
-        <span class="tag">Blueprint Flask</span>
     </div>
 </div>
 

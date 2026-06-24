@@ -20,46 +20,41 @@
 <!-- ── Header dégradé vert/bleu ── -->
 <header>
   <div class="logo">Santéo</div>
-  <div class="header-title"></div> 
-  <img class="logo-img" src="{{ url_for('static', filename='images/upec_iut_info-white.png') }}" alt="UPEC">
+  <div class="header-title"></div>
+  <div class="right-group">
+    <nav class="nav-centered">
+        <a href="{{ url_for('accueil.index') }}"
+           class="{% if request.endpoint == 'accueil.index' %}active{% endif %}">
+            Accueil
+        </a>
+        <a href="{{ url_for('carte.afficher_carte') }}"
+           class="{% if request.endpoint == 'carte.afficher_carte' %}active{% endif %}">
+            Carte
+        </a>
+        <a href="{{ url_for('comparaison.afficher') }}"
+           class="{% if request.endpoint == 'comparaison.afficher' %}active{% endif %}">
+            Comparaison
+        </a>
+        <a href="{{ url_for('honoraires.afficher') }}"
+           class="{% if request.endpoint == 'honoraires.afficher' %}active{% endif %}">
+            Honoraires
+        </a>
+        <a href="{{ url_for('prescriptions.afficher') }}"
+           class="{% if request.endpoint == 'prescriptions.afficher' %}active{% endif %}">
+            Prescriptions
+        </a>
+        <a href="{{ url_for('apropos.index') }}"
+           class="{% if request.endpoint == 'apropos.index' %}active{% endif %}">
+            À propos
+        </a>
+        <a href="{{ url_for('admin.dashboard') }}"
+           class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+            Administration
+        </a>
+    </nav>
+    <img class="logo-img" src="{{ url_for('static', filename='images/upec_iut_info-black.png') }}" alt="UPEC">
+  </div>
 </header>
-
-<!-- ── Nav horizontale séparée ── -->
-<nav class="nav-centered">
-    <a href="{{ url_for('accueil.index') }}"
-       class="{% if request.endpoint == 'accueil.index' %}active{% endif %}">
-        Accueil
-    </a>
-    <a href="{{ url_for('informations.index') }}"
-       class="{% if request.endpoint and request.endpoint.startswith('informations') %}active{% endif %}">
-        Informations
-    </a>
-    <a href="{{ url_for('carte.afficher_carte') }}"
-       class="{% if request.endpoint == 'carte.afficher_carte' %}active{% endif %}">
-        Carte
-    </a>
-    <a href="{{ url_for('comparaison.afficher') }}"
-       class="{% if request.endpoint == 'comparaison.afficher' %}active{% endif %}">
-        Comparaison
-    </a>
-    <a href="{{ url_for('honoraires.afficher') }}"
-       class="{% if request.endpoint == 'honoraires.afficher' %}active{% endif %}">
-        Honoraires
-    </a>
-    <a href="{{ url_for('prescriptions.afficher') }}"
-       class="{% if request.endpoint == 'prescriptions.afficher' %}active{% endif %}">
-        Prescriptions
-    </a>
-    <a href="{{ url_for('apropos.index') }}"
-       class="{% if request.endpoint == 'apropos.index' %}active{% endif %}">
-        À propos
-    </a>
-    </a>
-    <a href="{{ url_for('admin.dashboard') }}"
-   class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
-    Administration
-    </a>
-</nav>
 
 <!-- ── Contenu principal ── -->
 <main>

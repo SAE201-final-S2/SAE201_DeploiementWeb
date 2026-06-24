@@ -3,7 +3,6 @@ from config import Config
 from controllers.accueil import bp_accueil
 from controllers.api import bp_api
 from controllers.effectifs import bp_effectifs
-from controllers.informations import bp_informations
 from controllers.data import bp_data
 from controllers.apropos import bp_apropos
 from controllers.carte import bp_carte
@@ -19,7 +18,6 @@ app.config.from_object(Config)
 app.register_blueprint(bp_accueil)
 app.register_blueprint(bp_api)
 app.register_blueprint(bp_effectifs)
-app.register_blueprint(bp_informations)
 app.register_blueprint(bp_data)
 app.register_blueprint(bp_apropos)
 app.register_blueprint(bp_carte)

@@ -4,9 +4,13 @@ class AmeliAPI:
     """Service d'accès à l'API data.ameli.fr."""
     BASE_URL = "https://data.ameli.fr/api/explore/v2.1/catalog/datasets"
     
-    def __init__(self, timeout=10):
+    def __init__(self, timeout=(3, 7)):
         self._timeout = timeout
         self._session = requests.Session()
+        self._session.headers.update({
+            'Accept': 'application/json',
+            'User-Agent': 'Santéo/1.0'
+        })
         
     def get_effectifs(self, profession, departement_code, annee):
         """Effectifs pour une profession, un département et une année.
