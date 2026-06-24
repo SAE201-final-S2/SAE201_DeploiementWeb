@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block titre %}Carte{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+{% endblock %}
+
+{% block contenu %}
+
+<div class="page-header">
+    <div class="page-header-icon">🗺️</div>
+    <div>
+        <h1>Carte des densités par département</h1>
+        <div class="subtitle">Visualisez la répartition géographique des professionnels de santé</div>
+    </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 1.25rem;">
+    <form id="form-carte">
+        <div class="form-grid">
+            <div class="field">
+                <label for="profession">Profession</label>
+                <select name="profession_id" id="profession" required>
+                    <option value="">— Choisir une profession —</option>
+                    {% for p in professions %}
+                        <option value="{{ p.id }}">{{ p.libelle }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label for="annee">Année</label>
+                <select name="annee" id="annee">
+                    {% for a in range(2023, 2014, -1) %}
+                        <option value="{{ a }}">{{ a }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn">🗺️ Afficher la carte</button>
+            <p id="carte-statut" class="carte-statut"></p>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <div id="map"></div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="{{ url_for('static', filename='js/carte.js') }}"></script>
+{% endblock %}

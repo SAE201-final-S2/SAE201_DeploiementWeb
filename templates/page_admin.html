@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block titre %}Administration{% endblock %}
+
+{% block contenu %}
+<!-- En-tête avec icône -->
+<div class="page-header">
+  <div class="page-header-icon">📊</div>
+  <div>
+    <h1>Tableau de bord</h1>
+    <p class="subtitle">Statistiques globales de l'application</p>
+  </div>
+</div>
+
+<!-- Cartes de statistiques -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-label">
+      <span>Professions de santé</span>
+      <i>👥</i>
+    </div>
+    <div class="stat-value">{{ nb_professions }}</div>
+    <div class="stat-sub">référencées</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-label">
+      <span>Départements</span>
+      <i>🗺️</i>
+    </div>
+    <div class="stat-value">{{ nb_departements }}</div>
+    <div class="stat-sub">couverts</div>
+  </div>
+</div>
+
+<!-- Bouton de déconnexion -->
+<div class="card" style="max-width: fit-content;">
+  <a href="{{ url_for('auth.logout') }}" class="btn btn-outline">
+    Se déconnecter
+  </a>
+</div>
+{% endblock %}
