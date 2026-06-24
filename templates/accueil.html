@@ -4,35 +4,76 @@
 
 {% block contenu %}
 
-<div class="hero">
-    <span class="badge">
-        <i class="ti ti-heart-rate-monitor"></i> Données ameli.fr
-    </span>
-    <h1>Effectifs des professionnels de santé</h1>
-    <p>Consultez les effectifs par profession, région et département à partir des données de l'Assurance Maladie.</p>
+<!-- ── Hero ── -->
+<div class="hero-section">
+    <div class="hero-text">
+        <span class="tag">📊 Données ameli.fr</span>
+        <h1>Effectifs des professionnels de santé</h1>
+        <p>Consultez les effectifs par profession, région et département à partir des données de l'Assurance Maladie.</p>
+    </div>
 </div>
 
+<!-- ── Stats ── -->
 <div class="stats-row">
-    <div class="stat">
-        <div class="stat-val">~230k</div>
-        <div class="stat-lbl">Médecins généralistes</div>
+    <div class="stat-card">
+        <div class="stat-label">Médecins généralistes <i>🩺</i></div>
+        <div class="stat-value">~230k</div>
+        <div class="stat-sub">professionnels recensés</div>
     </div>
-    <div class="stat">
-        <div class="stat-val">18</div>
-        <div class="stat-lbl">Régions couvertes</div>
+    <div class="stat-card">
+        <div class="stat-label">Régions couvertes <i>🗺️</i></div>
+        <div class="stat-value">18</div>
+        <div class="stat-sub">régions françaises</div>
     </div>
-    <div class="stat">
-        <div class="stat-val">101</div>
-        <div class="stat-lbl">Départements</div>
+    <div class="stat-card">
+        <div class="stat-label">Départements <i>📍</i></div>
+        <div class="stat-value">101</div>
+        <div class="stat-sub">départements couverts</div>
     </div>
-    <div class="stat">
-        <div class="stat-val">2015–2023</div>
-        <div class="stat-lbl">Historique disponible</div>
+    <div class="stat-card">
+        <div class="stat-label">Historique <i>📅</i></div>
+        <div class="stat-value">2015–2023</div>
+        <div class="stat-sub">9 années de données</div>
     </div>
 </div>
 
+<!-- ── Cards d'accès rapide ── -->
+<div class="quick-cards">
+    <div class="quick-card">
+        <div class="quick-icon">🔍</div>
+        <div class="quick-body">
+            <h3>Recherche par effectifs</h3>
+            <p>Filtrez par profession, région, département et année.</p>
+        </div>
+        <a href="{{ url_for('effectifs.afficher') }}" class="btn btn-outline">Accéder →</a>
+    </div>
+    <div class="quick-card">
+        <div class="quick-icon">📈</div>
+        <div class="quick-body">
+            <h3>Visualisation des données</h3>
+            <p>Graphiques et statistiques sur les professionnels de santé.</p>
+        </div>
+        <a href="{{ url_for('data.index') }}" class="btn btn-outline">Accéder →</a>
+    </div>
+    <div class="quick-card">
+        <div class="quick-icon">ℹ️</div>
+        <div class="quick-body">
+            <h3>Informations</h3>
+            <p>En savoir plus sur les données et leur provenance.</p>
+        </div>
+        <a href="{{ url_for('informations.index') }}" class="btn btn-outline">Accéder →</a>
+    </div>
+</div>
+
+<!-- ── Formulaire ── -->
 <div class="form-card">
-    <h2><i class="ti ti-filter"></i> Filtrer les effectifs</h2>
+    <div class="form-card-header">
+        <span class="form-card-icon">🎯</span>
+        <div>
+            <h2>Filtrer les effectifs</h2>
+            <p class="form-card-sub">Sélectionnez vos critères pour afficher les données</p>
+        </div>
+    </div>
     <form action="{{ url_for('effectifs.afficher') }}" method="get">
         <div class="form-grid">
             <div class="field">
@@ -69,26 +110,9 @@
             </div>
         </div>
         <div class="form-actions">
-            <button type="submit" class="btn">
-                <i class="ti ti-search"></i> Afficher les effectifs
-            </button>
+            <button type="submit" class="btn">🔍 Afficher les effectifs</button>
         </div>
     </form>
-</div>
-
-<div class="info-row">
-    <div class="info-card">
-        <h3><i class="ti ti-database"></i> Source des données</h3>
-        <p>Les données proviennent de l'API open data d'ameli.fr, mise à jour annuellement par l'Assurance Maladie.</p>
-    </div>
-    <div class="info-card">
-        <h3><i class="ti ti-chart-bar"></i> Visualisations</h3>
-        <p>Tableaux comparatifs et graphiques d'évolution disponibles après sélection des critères.</p>
-    </div>
-    <div class="info-card">
-        <h3><i class="ti ti-map-pin"></i> Granularité</h3>
-        <p>Données disponibles à l'échelle nationale, régionale et départementale.</p>
-    </div>
 </div>
 
 <script>
