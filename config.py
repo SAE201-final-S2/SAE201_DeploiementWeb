@@ -8,6 +8,8 @@ class Config:
  DB_HOST = os.getenv("DB_HOST")
  DB_NAME = os.getenv("DB_NAME")
  SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret")
+ ADMIN_USER = os.getenv("ADMIN_USER", "admin")
+ ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin")
  
  @classmethod
  def db_url(cls):
