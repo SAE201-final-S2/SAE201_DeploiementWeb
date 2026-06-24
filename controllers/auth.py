@@ -16,8 +16,6 @@ def login_required(f):
 @bp_auth.route("/login", methods=["GET", "POST"])
 def login():
     erreur = None
-    print(">>> ADMIN_USER lu :", Config.ADMIN_USER)      # ← ajoute ces deux lignes
-    print(">>> ADMIN_PASSWORD lu :", Config.ADMIN_PASSWORD)
     if request.method == "POST":
         user = request.form.get("username")
         mdp  = request.form.get("password")
