@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block titre %}Administration{% endblock %}
+{% block contenu %}
+
+<h2>Tableau de bord de l'Admin</h2>
+
+<ul>
+    <li>Nombre de professions : <strong>{{ nb_professions }}</strong></li>
+    <li>Nombre de départements : <strong>{{ nb_departements }}</strong></li>
+</ul>
+
+<a href="{{ url_for('auth.logout') }}">Se déconnecter</a>
+
+{% endblock %}

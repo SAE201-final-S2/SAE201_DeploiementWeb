@@ -5,6 +5,9 @@ from controllers.api import bp_api
 from controllers.effectifs import bp_effectifs 
 from controllers.carte import bp_carte
 from controllers.comparaison import bp_comparaison
+from controllers.auth import bp_auth
+from controllers.admin import bp_admin
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -14,6 +17,8 @@ app.register_blueprint(bp_effectifs)
 app.register_blueprint(bp_accueil)
 app.register_blueprint(bp_comparaison)
 app.register_blueprint(bp_carte)
+app.register_blueprint(bp_auth)
+app.register_blueprint(bp_admin)
 
 @app.errorhandler(404)
 def page_non_trouvee(e):
