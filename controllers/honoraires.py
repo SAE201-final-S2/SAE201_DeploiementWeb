@@ -29,7 +29,6 @@ def afficher():
                 types_honoraire=types_honoraire,
                 resultats=None, evolution=None,
                 prof=None, dept=None, annee=None, type_hon=None,
-                BASE_URL="",
             )
 
         prof     = session.get(ProfessionSante, profession_id)
@@ -80,7 +79,6 @@ def afficher():
             resultats=resultats, evolution=evolution,
             prof=prof, dept=dept, annee=annee, type_hon=type_hon,
             total_honoraires=total_honoraires, moyen_honoraires=moyen_honoraires,
-            BASE_URL="",
         )
     finally:
         session.close()

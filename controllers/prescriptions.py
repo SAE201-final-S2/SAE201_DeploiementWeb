@@ -28,7 +28,6 @@ def afficher():
                 types_prescription=types_prescription,
                 resultats=None, evolution=None,
                 prof=None, dept=None, annee=None, type_presc=None,
-                BASE_URL="",
             )
 
         prof       = session.get(ProfessionSante, profession_id)
@@ -47,7 +46,6 @@ def afficher():
             types_prescription=types_prescription,
             resultats=resultats, evolution=evolution,
             prof=prof, dept=dept, annee=annee, type_presc=type_presc,
-            BASE_URL="",
         )
     finally:
         session.close()
