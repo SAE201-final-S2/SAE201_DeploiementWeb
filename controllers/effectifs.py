@@ -10,7 +10,7 @@ api = AmeliAPI()
 def afficher():
     """Affiche les effectifs pour la sélection de l'utilisateur."""
     profession_id = request.args.get("profession_id", type=int)
-    departement_code= request.args.get("departement_code", type=str)
+    departement_code = request.args.get("departement_code", type=int)
     annee = request.args.get("annee", type=int)
     session = Session()
     try:
@@ -24,5 +24,9 @@ def afficher():
         return render_template("effectifs.html",
                                prof=prof, dept=dept, annee=annee,
                                resultats=resultats, evolution=evolution)
+    except Exception as e:
+        print(f"[effectifs] Erreur : {e}")
+        return render_template("erreur.html",
+                               message="Erreur lors du chargement des données."), 500
     finally:
         session.close()

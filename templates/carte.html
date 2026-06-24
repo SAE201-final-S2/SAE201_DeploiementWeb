@@ -7,30 +7,45 @@
 
 {% block contenu %}
 
-<h2>Carte des densités par département</h2>
+<div class="page-header">
+    <div class="page-header-icon">🗺️</div>
+    <div>
+        <h1>Carte des densités par département</h1>
+        <div class="subtitle">Visualisez la répartition géographique des professionnels de santé</div>
+    </div>
+</div>
 
-<form id="form-carte">
-    <label for="profession">Profession</label>
-    <select name="profession_id" id="profession" required>
-        <option value="">-- Choisir --</option>
-        {% for p in professions %}
-        <option value="{{ p.id }}">{{ p.libelle }}</option>
-        {% endfor %}
-    </select>
+<div class="form-card" style="margin-bottom: 1.25rem;">
+    <form id="form-carte">
+        <div class="form-grid">
+            <div class="field">
+                <label for="profession">Profession</label>
+                <select name="profession_id" id="profession" required>
+                    <option value="">— Choisir une profession —</option>
+                    {% for p in professions %}
+                        <option value="{{ p.id }}">{{ p.libelle }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label for="annee">Année</label>
+                <select name="annee" id="annee">
+                    {% for a in range(2023, 2014, -1) %}
+                        <option value="{{ a }}">{{ a }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn">🗺️ Afficher la carte</button>
+            <p id="carte-statut" class="carte-statut"></p>
+        </div>
+    </form>
+</div>
 
-    <label for="annee">Année</label>
-    <select name="annee" id="annee">
-        {% for a in range(2023, 2014, -1) %}
-        <option value="{{ a }}">{{ a }}</option>
-        {% endfor %}
-    </select>
-
-    <button type="submit">Afficher la carte</button>
-</form>
-
-<p id="carte-statut" style="color: #666; margin-top: 10px;"></p>
-
-<div id="map" style="height:600px; margin-top: 15px;"></div>
+<div class="card">
+    <div id="map"></div>
+</div>
 
 {% endblock %}
 

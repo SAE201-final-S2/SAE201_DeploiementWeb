@@ -1,40 +1,123 @@
 {% extends "base.html" %}
-{% block titre %}Accueil{% endblock %}
-{% block contenu %}
- <h2>Consulter les effectifs</h2>
- <form action="{{ url_for('effectifs.afficher') }}" method="get">
- <label for="profession">Profession</label>
- <select name="profession_id" id="profession" required>
- <option value="">-- Choisir --</option>
- {% for p in professions %}
- <option value="{{ p.id }}">{{ p.libelle }}</option>
- {% endfor %}
- </select>
- <label for="region">Région</label>
- <select name="region_code" id="region" required>
- <option value="">-- Choisir --</option>
- {% for r in regions %}
- <option value="{{ r.code }}">{{ r.libelle }}</option>
- {% endfor %}
- </select>
- <label for="departement">Département</label>
- <select name="departement_code" id="departement" required>
- <option value="">-- Choisir une région --</option>
- </select>
- <label for="annee">Année</label>
- <select name="annee" id="annee" required>
- {% for a in range(2023, 2014, -1) %}
- <option value="{{ a }}">{{ a }}</option>
- {% endfor %}
- </select>
- <button type="submit">Afficher les effectifs</button>
- </form>
- <div id="graph-container" style="display: none; margin-top: 30px; background: #fff; padding: 15px; border: 1px solid #eee; border-radius: 4px;">
-     <div id="plotly-chart"></div>
- </div>
- <script>const BASE_URL = "{{ BASE_URL }}";</script>
- <script src="{{ url_for('static', filename='js/cascade.js') }}"></script>
- <script src="{{ url_for('static', filename='js/graphique.js') }}"></script>
-{% endblock %}
 
-<!-- On a modifié region_id par region_code --->
+{% block titre %}Accueil{% endblock %}
+
+{% block contenu %}
+
+<!-- ── Hero ── -->
+<div class="hero-section">
+    <div class="hero-text">
+        <span class="tag">📊 Données ameli.fr</span>
+        <h1>Effectifs des professionnels de santé</h1>
+        <p>Consultez les effectifs par profession, région et département à partir des données de l'Assurance Maladie.</p>
+    </div>
+</div>
+
+<!-- ── Stats ── -->
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-label">Médecins généralistes <i>🩺</i></div>
+        <div class="stat-value">~230k</div>
+        <div class="stat-sub">professionnels recensés</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Régions couvertes <i>🗺️</i></div>
+        <div class="stat-value">18</div>
+        <div class="stat-sub">régions françaises</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Départements <i>📍</i></div>
+        <div class="stat-value">101</div>
+        <div class="stat-sub">départements couverts</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Historique <i>📅</i></div>
+        <div class="stat-value">2015–2023</div>
+        <div class="stat-sub">9 années de données</div>
+    </div>
+</div>
+
+<!-- ── Cards d'accès rapide ── -->
+<div class="quick-cards">
+    <div class="quick-card">
+        <div class="quick-icon">🔍</div>
+        <div class="quick-body">
+            <h3>Recherche par effectifs</h3>
+            <p>Filtrez par profession, région, département et année.</p>
+        </div>
+        <a href="{{ url_for('effectifs.afficher') }}" class="btn btn-outline">Accéder →</a>
+    </div>
+    <div class="quick-card">
+        <div class="quick-icon">📈</div>
+        <div class="quick-body">
+            <h3>Visualisation des données</h3>
+            <p>Graphiques et statistiques sur les professionnels de santé.</p>
+        </div>
+        <a href="{{ url_for('data.index') }}" class="btn btn-outline">Accéder →</a>
+    </div>
+    <div class="quick-card">
+        <div class="quick-icon">ℹ️</div>
+        <div class="quick-body">
+            <h3>Informations</h3>
+            <p>En savoir plus sur les données et leur provenance.</p>
+        </div>
+        <a href="{{ url_for('informations.index') }}" class="btn btn-outline">Accéder →</a>
+    </div>
+</div>
+
+<!-- ── Formulaire ── -->
+<div class="form-card">
+    <div class="form-card-header">
+        <span class="form-card-icon">🎯</span>
+        <div>
+            <h2>Filtrer les effectifs</h2>
+            <p class="form-card-sub">Sélectionnez vos critères pour afficher les données</p>
+        </div>
+    </div>
+    <form action="{{ url_for('effectifs.afficher') }}" method="get">
+        <div class="form-grid">
+            <div class="field">
+                <label for="profession">Profession</label>
+                <select name="profession_id" id="profession" required>
+                    <option value="">— Choisir une profession —</option>
+                    {% for p in professions %}
+                        <option value="{{ p.id }}">{{ p.libelle }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label for="region">Région</label>
+                <select name="region_code" id="region" required>
+                    <option value="">— Choisir une région —</option>
+                    {% for r in regions %}
+                        <option value="{{ r.code }}">{{ r.libelle }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label for="departement">Département</label>
+                <select name="departement_code" id="departement" required>
+                    <option value="">— Choisir une région d'abord —</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="annee">Année</label>
+                <select name="annee" id="annee" required>
+                    {% for a in range(2023, 2014, -1) %}
+                        <option value="{{ a }}">{{ a }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn">🔍 Afficher les effectifs</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const BASE_URL = "{{ BASE_URL }}";
+</script>
+<script src="{{ url_for('static', filename='js/cascade.js') }}"></script>
+
+{% endblock %}

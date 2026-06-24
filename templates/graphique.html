@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block titre %}Graphique{% endblock %}
+
+{% block head %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+
+{% block contenu %}
+
+<div class="page-header">
+    <div class="page-header-icon">📈</div>
+    <div>
+        <h1>Évolution des effectifs</h1>
+        <div class="subtitle">Suivez l'évolution d'une profession de santé sur la période 2015–2023</div>
+    </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 1.25rem;">
+    <div class="form-card-header">
+        <span class="form-card-icon">🎯</span>
+        <div>
+            <h2>Paramètres du graphique</h2>
+            <p class="form-card-sub">Sélectionnez une profession et un département</p>
+        </div>
+    </div>
+    <div class="form-grid">
+        <div class="field">
+            <label for="profession">Profession</label>
+            <select id="profession">
+                <option value="">— Choisir une profession —</option>
+                {% for p in professions %}
+                    <option value="{{ p.id }}" data-libelle="{{ p.libelle }}">{{ p.libelle }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="field">
+            <label for="region">Région</label>
+            <select id="region">
+                <option value="">— Choisir une région —</option>
+                {% for r in regions %}
+                    <option value="{{ r.code }}">{{ r.libelle }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="field">
+            <label for="departement">Département</label>
+            <select id="departement">
+                <option value="">— Choisir une région d'abord —</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-actions">
+        <span id="graph-statut" style="font-size:.85rem; color:var(--muted);"></span>
+    </div>
+</div>
+
+<div class="card" id="graph-container" style="display:none; padding: 1.25rem;">
+    <div id="plotly-chart"></div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const BASE_URL = "{{ request.host_url }}".replace(/\/$/, "");
+</script>
+<script src="{{ url_for('static', filename='js/cascade.js') }}"></script>
+<script src="{{ url_for('static', filename='js/graphique.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block titre %}À propos{% endblock %}
+
+{% block contenu %}
+
+<div class="page-header">
+    <div class="page-header-icon">ℹ️</div>
+    <div>
+        <h1>À propos de Santéo</h1>
+        <div class="subtitle">Projet SAE 2.01 · BUT Informatique · IUT Créteil-Vitry</div>
+    </div>
+</div>
+
+<!-- Présentation du projet -->
+<div class="card" style="margin-bottom: 1.25rem;">
+    <h2>🎯 Le projet</h2>
+    <p class="card-sub">SAE 2.01 — Développement d'une application web</p>
+    <p style="margin-top: 1rem; line-height: 1.7; color: var(--text);">
+        Santéo est une application web développée dans le cadre de la SAE 2.01 du BUT Informatique.
+        Elle permet de visualiser et d'explorer les effectifs des professionnels de santé libéraux en France,
+        à partir des données open data de l'Assurance Maladie (ameli.fr).
+        L'application offre des vues par profession, région, département et année, ainsi que des outils
+        de comparaison et de cartographie interactive.
+    </p>
+</div>
+
+<!-- Équipe -->
+<div class="card" style="margin-bottom: 1.25rem;">
+    <h2>👥 L'équipe</h2>
+    <p class="card-sub">Étudiants en BUT Informatique — 2ème année</p>
+    <div class="ranking-list" style="margin-top: 1rem;">
+        <div class="ranking-item">
+            <div class="ranking-num">👤</div>
+            <div class="ranking-info">
+                <div class="name">Thenujan</div>
+                <div class="meta">Chef de projet · Interface web · Flask · SQLAlchemy</div>
+            </div>
+            <div class="ranking-right">
+                <span class="tag">Backend</span>
+            </div>
+        </div>
+        <div class="ranking-item">
+            <div class="ranking-num">👤</div>
+            <div class="ranking-info">
+                <div class="name">Samuel MIHAILA</div>
+                <div class="meta">Graphiques · Comparaison · Plotly</div>
+            </div>
+            <div class="ranking-right">
+                <span class="tag">Frontend</span>
+            </div>
+        </div>
+        <div class="ranking-item">
+            <div class="ranking-num">👤</div>
+            <div class="ranking-info">
+                <div class="name">Hakîm HAMILCARO</div>
+                <div class="meta">Cartographie · Leaflet.js</div>
+            </div>
+            <div class="ranking-right">
+                <span class="tag">Carte</span>
+            </div>
+        </div>
+        <div class="ranking-item">
+            <div class="ranking-num">👤</div>
+            <div class="ranking-info">
+                <div class="name">Adrien GARRIGON-VIRAMOUTOU</div>
+                <div class="meta">Base de données · API ameli.fr</div>
+            </div>
+            <div class="ranking-right">
+                <span class="tag">Data</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Deux colonnes : Source + FAQ -->
+<div class="charts-grid" style="margin-bottom: 1.25rem;">
+
+    <div class="card">
+        <h2>📊 Source des données</h2>
+        <p class="card-sub">Open data · Assurance Maladie</p>
+        <div style="margin-top: 1rem; line-height: 1.8; color: var(--text); font-size: .92rem;">
+            <p>Les données proviennent de l'API open data d'<strong>ameli.fr</strong>,
+            mise à disposition par l'Assurance Maladie française.</p>
+            <p style="margin-top: .75rem;">Elles couvrent :</p>
+            <ul style="padding-left: 1.25rem; margin-top: .5rem;">
+                <li>38 professions de santé libérales</li>
+                <li>101 départements français</li>
+                <li>La période 2015 à 2023</li>
+                <li>Les effectifs et densités pour 100 000 habitants</li>
+            </ul>
+            <p style="margin-top: .75rem;">
+                <a href="https://data.ameli.fr" target="_blank" style="color: var(--primary); font-weight: 600;">
+                    → Accéder à data.ameli.fr
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>❓ Questions fréquentes</h2>
+        <p class="card-sub">Aide à l'utilisation</p>
+        <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: .75rem;">
+            <details style="border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1rem;">
+                <summary style="font-weight: 600; cursor: pointer; font-size: .92rem;">Comment filtrer les effectifs ?</summary>
+                <p style="margin-top: .5rem; font-size: .88rem; color: var(--muted); line-height: 1.6;">
+                    Depuis la page Accueil, sélectionnez une profession, une région, un département et une année puis cliquez sur "Afficher les effectifs".
+                </p>
+            </details>
+            <details style="border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1rem;">
+                <summary style="font-weight: 600; cursor: pointer; font-size: .92rem;">Comment utiliser la carte ?</summary>
+                <p style="margin-top: .5rem; font-size: .88rem; color: var(--muted); line-height: 1.6;">
+                    Depuis la page Carte, choisissez une profession et une année. La carte affiche la densité par département avec un code couleur.
+                </p>
+            </details>
+            <details style="border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1rem;">
+                <summary style="font-weight: 600; cursor: pointer; font-size: .92rem;">Comment comparer deux professions ?</summary>
+                <p style="margin-top: .5rem; font-size: .88rem; color: var(--muted); line-height: 1.6;">
+                    Depuis la page Comparaison, remplissez les deux formulaires avec des critères différents pour superposer les courbes d'évolution.
+                </p>
+            </details>
+            <details style="border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1rem;">
+                <summary style="font-weight: 600; cursor: pointer; font-size: .92rem;">Les données sont-elles en temps réel ?</summary>
+                <p style="margin-top: .5rem; font-size: .88rem; color: var(--muted); line-height: 1.6;">
+                    Non, les données sont mises à jour annuellement par l'Assurance Maladie. La dernière année disponible est 2023.
+                </p>
+            </details>
+        </div>
+    </div>
+
+</div>
+
+<!-- Stack technique -->
+<div class="card">
+    <h2>🛠️ Stack technique</h2>
+    <p class="card-sub">Technologies utilisées dans ce projet</p>
+    <div style="display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem;">
+        <span class="tag">Python 3</span>
+        <span class="tag">Flask</span>
+        <span class="tag">SQLAlchemy</span>
+        <span class="tag">MySQL</span>
+        <span class="tag">HTML / CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Leaflet.js</span>
+        <span class="tag">Plotly</span>
+        <span class="tag">Chart.js</span>
+        <span class="tag">API ameli.fr</span>
+        <span class="tag">GitHub</span>
+        <span class="tag">Blueprint Flask</span>
+    </div>
+</div>
+
+{% endblock %}
