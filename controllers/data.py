@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from controllers.auth import login_required
 from models.db import Session
 from models.dimensions import ProfessionSante, Departement, Region
 from services.ameli_api import AmeliAPI
@@ -37,8 +38,8 @@ def get_total_effectif(profession_libelle, annee):
                 pass
     return total
 
-@bp_data.route("/data")
-def index():
+
+def get_dashboard_context():
     session = Session()
     try:
         nb_professions = session.query(ProfessionSante).count()
@@ -74,10 +75,30 @@ def index():
 
         top_professions = sorted(top_professions, key=lambda x: x["effectif"], reverse=True)[:5]
 
-        return render_template("data.html", stats=stats, top_professions=top_professions)
+        return {
+            "stats": stats,
+            "top_professions": top_professions,
+            "error": None,
+        }
 
     except Exception as e:
-        return render_template("data.html", stats=stats, top_professions=[], error=str(e))
+        return {
+            "stats": {
+                "nb_professions": 0,
+                "nb_departements": 0,
+                "nb_regions": 0,
+                "annee_ref": 2023,
+            },
+            "top_professions": [],
+            "error": str(e),
+        }
 
     finally:
         session.close()
+
+
+@bp_data.route("/data")
+@login_required
+def index():
+    context = get_dashboard_context()
+    return render_template("data.html", **context)

@@ -34,14 +34,6 @@
        class="{% if request.endpoint and request.endpoint.startswith('informations') %}active{% endif %}">
         Informations
     </a>
-    <a href="{{ url_for('data.index') }}"
-       class="{% if request.endpoint and request.endpoint.startswith('data') %}active{% endif %}">
-        Data
-    </a>
-    <a href="{{ url_for('erreur') }}"
-       class="{% if request.endpoint == 'erreur' %}active{% endif %}">
-        Erreur (test)
-    </a>
     <a href="{{ url_for('carte.afficher_carte') }}"
        class="{% if request.endpoint == 'carte.afficher_carte' %}active{% endif %}">
         Carte
@@ -55,7 +47,6 @@
     À propos
     </a>
     </a>
-    <a href="{{ url_for('auth.login') }}">Se connecter</a>
     <a href="{{ url_for('admin.dashboard') }}"
    class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
     Administration

@@ -78,27 +78,35 @@
     <!-- Graphique évolution -->
     <div class="card">
         <h2>Évolution sur plusieurs années</h2>
-        <p class="card-sub">Nombre de professionnels · {{ dept.libelle }}</p>
-        <canvas id="chartEvolution" height="220"></canvas>
+
+    <div id="plotly-chart" style="height: 350px; margin-top: 20px;"></div>
+
+    <script>
+        const evoData = {{ evolution | tojson if evolution else '[]' }};
+    </script>
+
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (evoData.length > 0) {
+                const xAnnees = evoData.map(ev => String(ev.annee).split("-")[0]);
+                const yEffectifs = evoData.map(ev => ev.effectif);
+
+                Plotly.newPlot('plotly-chart', [{
+    x: xAnnees,
+    y: yEffectifs,
+    type: 'scater',
+    marker: { color: 'navy' }
+}], {
+    margin: { t: 20, b: 60, l: 70, r: 10 },
+    xaxis: { title: { text: 'Années' } },
+    yaxis: { title: { text: 'Effectifs' } }
+});
+            } else {
+                document.getElementById('plotly-chart').innerHTML = "<p>Aucun historique disponible.</p>";
+            }
+        });
+    </script>
     </div>
-
-</div>
-
-<!-- Bouton retour -->
-<div style="margin-top: 1.5rem;">
-    <a href="{{ url_for('accueil.index') }}" class="btn btn-outline">
-        ← Nouvelle recherche
-    </a>
-</div>
-
-<!-- Données pour le graphique -->
-<script>
-    window.CHART_LABELS = {{ (evolution | default([]) | map(attribute='annee') | list) | tojson }};
-    window.CHART_DATA   = {{ (evolution | default([]) | map(attribute='effectif') | map('int') | list) | tojson }};
-</script>
-
-<!-- Chart.js puis ton fichier JS -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{{ url_for('static', filename='js/cascade.js') }}"></script>
-
+    </script>
 {% endblock %}

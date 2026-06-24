@@ -719,26 +719,6 @@ footer {
     margin: 0;
 }
 
-/* ── Carte Leaflet ── */
-#map {
-    height: 560px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-soft);
-}
-
-.leaflet-popup-content-wrapper {
-    border-radius: 10px;
-    font-family: "Inter", sans-serif;
-    font-size: .88rem;
-}
-
-.carte-statut {
-    font-size: .85rem;
-    color: var(--muted);
-    margin: 0;
-}
-
 /* ===== MODIFICATIONS POUR LE HEADER ===== */
 .header-title {
     position: absolute;
@@ -760,4 +740,23 @@ nav {
 /* Optionnel : Style pour les liens actifs/inactifs */
 nav a {
     padding: 0.85rem 1rem;  /* Padding uniforme */
+}
+
+/* ===== AJOUT DEMANDÉ : BOUTON DE DÉCONNEXION ROUGE ===== */
+.card .btn-outline[href*="logout"] {
+    color: brown;
+    border-color: darkred;
+    background: transparent;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card .btn-outline[href*="logout"]:hover {
+    color: white;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+}
+
+.card .btn-outline[href*="logout"]:active {
+    transform: scale(.98);
 }

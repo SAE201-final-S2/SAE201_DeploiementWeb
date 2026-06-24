@@ -8,16 +8,11 @@ from controllers.data import bp_data
 from controllers.apropos import bp_apropos
 from controllers.carte import bp_carte
 from controllers.comparaison import bp_comparaison
-from controllers.auth import bp_auth  # <-- Ajout pour la connexion
-from controllers.admin import bp_admin  # <-- Ajout pour le tableau de bord admin
+from controllers.auth import bp_auth 
+from controllers.admin import bp_admin
 
 app = Flask(__name__)
 app.config.from_object(Config)
-# Assure-toi que Config contient bien :
-# ADMIN_USER = "ton_user"
-# ADMIN_PASSWORD = "ton_mot_de_passe"
-# SECRET_KEY = "ta_clé_secrète" (nécessaire pour les sessions)
-
 # Enregistrement des blueprints
 app.register_blueprint(bp_accueil)
 app.register_blueprint(bp_api)
@@ -27,8 +22,8 @@ app.register_blueprint(bp_data)
 app.register_blueprint(bp_apropos)
 app.register_blueprint(bp_carte)
 app.register_blueprint(bp_comparaison)
-app.register_blueprint(bp_auth)  # Routes : /auth/login, /auth/logout
-app.register_blueprint(bp_admin)  # Route : /admin/dashboard
+app.register_blueprint(bp_auth)  
+app.register_blueprint(bp_admin) 
 
 # Gestionnaires d'erreurs
 @app.errorhandler(404)
