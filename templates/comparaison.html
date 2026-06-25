@@ -29,7 +29,6 @@
         <form method="get" action="{{ url_for('comparaison.afficher') }}">
             <input type="hidden" name="profession2_id"    value="{{ request.args.get('profession2_id', '') }}">
             <input type="hidden" name="departement2_code" value="{{ request.args.get('departement2_code', '') }}">
-            <input type="hidden" name="annee2"            value="{{ request.args.get('annee2', '') }}">
 
             <div class="form-grid">
                 <div class="field">
@@ -56,17 +55,6 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="field">
-                    <label>Année</label>
-                    <select name="annee1">
-                        {% for a in range(2023, 2014, -1) %}
-                            <option value="{{ a }}"
-                                {% if request.args.get('annee1')|int == a %}selected{% endif %}>
-                                {{ a }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn">🔵 Afficher série 1</button>
@@ -86,7 +74,6 @@
         <form method="get" action="{{ url_for('comparaison.afficher') }}">
             <input type="hidden" name="profession1_id"    value="{{ request.args.get('profession1_id', '') }}">
             <input type="hidden" name="departement1_code" value="{{ request.args.get('departement1_code', '') }}">
-            <input type="hidden" name="annee1"            value="{{ request.args.get('annee1', '') }}">
 
             <div class="form-grid">
                 <div class="field">
@@ -109,17 +96,6 @@
                             <option value="{{ d.code }}"
                                 {% if request.args.get('departement2_code') == d.code %}selected{% endif %}>
                                 {{ d.code }} – {{ d.libelle }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Année</label>
-                    <select name="annee2">
-                        {% for a in range(2023, 2014, -1) %}
-                            <option value="{{ a }}"
-                                {% if request.args.get('annee2')|int == a %}selected{% endif %}>
-                                {{ a }}
                             </option>
                         {% endfor %}
                     </select>
