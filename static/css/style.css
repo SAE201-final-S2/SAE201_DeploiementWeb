@@ -1,15 +1,9 @@
-/* =========================================================
-   Ameli Data — Modern UI 2026
-   ========================================================= */
-
-/* ── Reset ─────────────────────────────────────────────── */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* ── Variables ──────────────────────────────────────────── */
 :root {
     --primary: #2E74B5;
     --primary-dark: #1f5a8e;
@@ -27,7 +21,6 @@
     --shadow-soft: 0 3px 10px rgba(0,0,0,.06);
 }
 
-/* ── Base ──────────────────────────────────────────────── */
 body {
     font-family: "Inter", "Segoe UI", sans-serif;
     background: var(--bg);
@@ -38,7 +31,6 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* ── Header dégradé vert/bleu ───────────────────────────── */
 header {
     background: linear-gradient(135deg, #a8edca 0%, #b8d4f0 60%, #c5cef5 100%);
     padding: 1.2rem 2rem;
@@ -48,7 +40,6 @@ header {
     box-shadow: 0 2px 12px rgba(0,0,0,.08);
 }
 
-/* allow absolute centering of nav inside header */
 header {
     position: relative;
 }
@@ -65,7 +56,6 @@ header .logo-img {
     width: auto;
 }
 
-/* Group nav and right-side logo inside header */
 header .right-group {
     display: flex;
     align-items: center;
@@ -81,7 +71,6 @@ header nav {
     justify-content: flex-end !important;
 }
 
-/* center the navigation horizontally in the header without changing layout flow */
 header nav.nav-centered {
     position: absolute;
     left: 50%;
@@ -93,7 +82,6 @@ header nav.nav-centered {
     z-index: 5;
 }
 
-/* ── Nav horizontale ────────────────────────────────────── */
 nav {
     background: white;
     border-bottom: 1px solid var(--border);
@@ -123,7 +111,6 @@ nav a.nav-bold {
     font-weight: 700;
 }
 
-/* ── Layout principal ──────────────────────────────────── */
 main {
     flex: 1;
     max-width: 1050px;
@@ -132,7 +119,6 @@ main {
     padding: 2rem 1.25rem;
 }
 
-/* ── Page header (titre + badge) ────────────────────────── */
 .page-header {
     display: flex;
     align-items: center;
@@ -171,7 +157,6 @@ main {
     margin-top: .1rem;
 }
 
-/* ── Stats row (4 métriques) ────────────────────────────── */
 .stats-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -219,7 +204,6 @@ main {
     color: var(--muted);
 }
 
-/* ── Cards modernes ────────────────────────────────────── */
 .card, .form-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -247,7 +231,6 @@ main {
     margin-bottom: 1rem;
 }
 
-/* ── Grille 2 colonnes pour charts ──────────────────────── */
 .charts-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -255,7 +238,6 @@ main {
     margin-bottom: 1rem;
 }
 
-/* ── Liste ranking (top 5) ──────────────────────────────── */
 .ranking-list {
     display: flex;
     flex-direction: column;
@@ -334,7 +316,6 @@ main {
     color: var(--muted);
 }
 
-/* ── Badge remboursement ────────────────────────────────── */
 .badge-remb {
     display: inline-block;
     background: #1f2937;
@@ -345,7 +326,6 @@ main {
     border-radius: 999px;
 }
 
-/* ── Tag (générique) ────────────────────────────────────── */
 .tag {
     display: inline-block;
     padding: .25rem .6rem;
@@ -356,7 +336,6 @@ main {
     font-weight: 600;
 }
 
-/* ── Formulaire ────────────────────────────────────────── */
 .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -404,7 +383,6 @@ main {
     align-items: center;
 }
 
-/* ── Boutons ────────────────────────────────────────────── */
 .btn {
     background: #1f2937;
     color: white;
@@ -438,7 +416,6 @@ main {
     background: var(--primary-soft);
 }
 
-/* ── Carte interactive (zone) ───────────────────────────── */
 .map-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -484,7 +461,6 @@ main {
     margin-top: .75rem;
 }
 
-/* ── Tables ─────────────────────────────────────────────── */
 .table-wrapper {
     overflow-x: auto;
     border-radius: var(--radius);
@@ -521,7 +497,6 @@ tbody tr:hover {
     background: #f0f7ff;
 }
 
-/* ── Footer ─────────────────────────────────────────────── */
 footer {
     text-align: center;
     padding: 1.2rem;
@@ -531,7 +506,6 @@ footer {
     border-top: 1px solid var(--border);
 }
 
-/* ── Responsive ────────────────────────────────────────── */
 @media (max-width: 768px) {
     .charts-grid,
     .map-section {
@@ -560,12 +534,10 @@ footer {
     }
 }
 
-/* ── Motion clean ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
 }
 
-/* ── Page erreur ── */
 .error-container {
     max-width: 600px;
     margin: 60px auto;
@@ -632,7 +604,6 @@ footer {
     opacity: 0.88;
 }
 
-/* ── Hero section ── */
 .hero-section {
     background: linear-gradient(135deg, #a8edca 0%, #b8d4f0 60%, #c5cef5 100%);
     border-radius: var(--radius);
@@ -662,7 +633,6 @@ footer {
     border: 1px solid rgba(255,255,255,.7);
 }
 
-/* ── Quick cards ── */
 .quick-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

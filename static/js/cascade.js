@@ -31,7 +31,6 @@ if (regionSelect) {
   }
 }
 
-// ── Graphique évolution (page effectifs uniquement) ──────
 const canvas = document.getElementById("chartEvolution");
 if (canvas) {
   new Chart(canvas, {
@@ -64,7 +63,6 @@ if (canvas) {
       }
     }
   });
-  // ── Graphique top professions (page data) ────────────────
 const canvasTop = document.getElementById("chartTop");
 if (canvasTop) {
     new Chart(canvasTop, {

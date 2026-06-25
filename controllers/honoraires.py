@@ -40,7 +40,7 @@ def afficher():
 
         resultats = api.get_honoraires(prof.libelle, dept.code, annee, type_hon)
         evolution = api.get_evolution_honoraires(prof.libelle, dept.code, type_hon)
-        # Essayer d'afficher les montants pour l'année sélectionnée.
+        #Essayer d'afficher les montants pour l'année sélectionnée.
         total_honoraires = None
         moyen_honoraires = None
         try:
@@ -52,7 +52,7 @@ def afficher():
             total_honoraires = None
             moyen_honoraires = None
 
-        # Fallback : si resultats ne contient rien, chercher dans evolution l'année choisie
+        #si resultats ne contient rien, chercher dans evolution l'année choisie
         if (total_honoraires is None or total_honoraires == '') and evolution:
             try:
                 match = next((ev for ev in evolution if str(ev.get('annee')).startswith(str(annee))), None)

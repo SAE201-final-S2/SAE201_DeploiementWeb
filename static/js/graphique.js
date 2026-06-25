@@ -3,14 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const departementSelect = document.getElementById("departement");
     const graphContainer = document.getElementById("graph-container");
 
-    // Écouter les changements sur les menus déroulants
     [professionSelect, departementSelect].forEach(select => {
         select?.addEventListener("change", () => {
             const profLibelle = professionSelect.options[professionSelect.selectedIndex]?.dataset.libelle;
             const deptCode = departementSelect.value;
             const deptNom = departementSelect.options[departementSelect.selectedIndex]?.textContent || "";
 
-            // On ne lance le graphique que si les deux informations sont présentes
             if (profLibelle && deptCode) {
                 console.log("Tentative de chargement pour :", profLibelle, "Département :", deptCode);
                 chargerGraphiqueEvolution(profLibelle, deptCode, deptNom);
@@ -48,12 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             const effectifs = data.map(d => d.effectif);
 
-            // Définition de la courbe Plotly
             const trace = {
                 x: annees,
                 y: effectifs,
-                type: 'scatter', // Crée une courbe
-                mode: 'lines+markers', // Points + lignes
+                type: 'scatter', 
+                mode: 'lines+markers', 
                 name: 'Effectif',
                 line: { color: '#007bff', width: 3 },
                 marker: { size: 8 }
@@ -68,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (graphContainer) {
                 graphContainer.style.display = "block";
-                // Génération effective du graphique Plotly dans la div
                 Plotly.newPlot('plotly-chart', [trace], layout);
             }
 
