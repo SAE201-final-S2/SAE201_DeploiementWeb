@@ -4,8 +4,7 @@ class AmeliAPI:
     """Service d'accès à l'API data.ameli.fr."""
     BASE_URL = "https://data.ameli.fr/api/explore/v2.1/catalog/datasets"
     
-    def __init__(self, timeout=(3, 7)):
-        self._timeout = timeout
+    def __init__(self):
         self._session = requests.Session()
         self._session.headers.update({
             'Accept': 'application/json',
@@ -149,7 +148,7 @@ class AmeliAPI:
         """Méthode privée : effectue une requête GET et gère les erreurs."""
         url = f"{self.BASE_URL}/{dataset}/records"
         try:
-            resp = self._session.get(url, params=params, timeout=self._timeout)
+            resp = self._session.get(url, params=params)
             resp.raise_for_status()
             return resp.json().get("results", [])
         except requests.RequestException as e:
