@@ -46,7 +46,7 @@ class AmeliAPI:
         where = [
             f'profession_sante="{profession}"',
             f'departement="{departement_code}"',
-            f'annee={annee}',
+            f'year(annee)={annee}',
         ]
         if type_honoraire:
             where.append(f'type_honoraires_niveau_1="{type_honoraire.niveau_1}"')
