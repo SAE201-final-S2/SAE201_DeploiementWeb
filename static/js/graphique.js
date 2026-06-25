@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function chargerGraphiqueEvolution(profession, deptCode, deptNom) {
         try {
-            // Requête vers ton API Flask
             const url = `${BASE_URL}/api/evolution?profession=${encodeURIComponent(profession)}&dept=${deptCode}`;
             const response = await fetch(url);
             const data = await response.json();

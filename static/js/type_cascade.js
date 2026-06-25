@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
         populateN3(preSelectN2, preSelectN3);
       }
     } else {
-      // no niveau 2; try to set hidden id matching niveau1-only
       const match = types.find(t => t.niveau_1 === selectedN1 && (!t.niveau_2 || t.niveau_2 === null));
       if (match) hid.value = match.id;
     }
@@ -64,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setHiddenForCurrent();
       }
     } else {
-      // no niveau 3; try match n1+n2
       const match = types.find(t => t.niveau_1 === selectedN1 && t.niveau_2 === selectedN2 && (!t.niveau_3 || t.niveau_3 === null));
       if (match) hid.value = match.id;
     }
@@ -83,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
     hid.value = match ? match.id : '';
   }
 
-  // Event listeners
   n1.addEventListener('change', (e) => {
     hid.value = '';
     populateN2(e.target.value, '', '');
@@ -96,12 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   n3.addEventListener('change', () => setHiddenForCurrent());
 
-  // Preselect if values present
   if (preN1) {
     n1.value = preN1;
     populateN2(preN1, preN2, preN3);
     if (!preN2 && !preN3) {
-      // if only n1 and matched earlier, hid may already be set
       const match = types.find(t => t.niveau_1 === preN1 && (!t.niveau_2 || t.niveau_2 === null));
       if (match) hid.value = match.id;
     }
