@@ -89,14 +89,6 @@
 </div>
 
 <!-- ── Cards d'accès rapide ── -->
-<div class="quick-cards">
-    <div class="quick-card">
-        <div class="quick-body">
-            <h3>Recherche par effectifs</h3>
-            <p>Filtrez par profession, région, département et année.</p>
-        </div>
-        <a href="{{ url_for('effectifs.afficher') }}" class="btn btn-outline">Accéder →</a>
-    </div>
     <div class="quick-card">
         <div class="quick-icon"></div>
         <div class="quick-body">
@@ -105,7 +97,6 @@
         </div>
         <a href="{{ url_for('apropos.index') }}" class="btn btn-outline">Accéder →</a>
     </div>
-</div>
 
 <script>
     const BASE_URL = "{{ BASE_URL }}";
