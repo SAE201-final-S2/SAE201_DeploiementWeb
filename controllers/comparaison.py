@@ -16,26 +16,24 @@ def afficher():
         # Paramètres du formulaire 1
         prof1_id = request.args.get("profession1_id", type=int)
         dept1_code = request.args.get("departement1_code", type=str)
-        annee1 = request.args.get("annee1", type=int)
 
         # Paramètres du formulaire 2
         prof2_id = request.args.get("profession2_id", type=int)
         dept2_code = request.args.get("departement2_code", type=str)
-        annee2 = request.args.get("annee2", type=int)
 
         evolution1 = []
         evolution2 = []
         label1 = ""
         label2 = ""
 
-        if prof1_id and dept1_code and annee1:
+        if prof1_id and dept1_code:
             prof1 = session.get(ProfessionSante, prof1_id)
             dept1 = session.get(Departement, dept1_code)
             if prof1 and dept1:
                 evolution1 = api.get_evolution_effectifs(prof1.libelle, dept1_code)
                 label1 = f"{prof1.libelle} – {dept1.code} {dept1.libelle}"
 
-        if prof2_id and dept2_code and annee2:
+        if prof2_id and dept2_code:
             prof2 = session.get(ProfessionSante, prof2_id)
             dept2 = session.get(Departement, dept2_code)
             if prof2 and dept2:
